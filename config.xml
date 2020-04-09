@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>fop_customcss</name>
+	<displayName><![CDATA[FOP - Custom css]]></displayName>
+	<version><![CDATA[1.0.0]]></version>
+	<description><![CDATA[Add some custom css for your template]]></description>
+	<author><![CDATA[FOP - Guillaume Batier]]></author>
+	<tab><![CDATA[administration]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+</module>
