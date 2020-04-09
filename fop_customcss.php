@@ -174,6 +174,11 @@ class Fop_customcss extends Module
         $css_file = dirname(__FILE__).'/views/css/front.css';
 
         file_put_contents($css_file, $compiledCSS);
+
+        //update cache version of ccccss
+        $version = (int) Configuration::get('PS_CCCCSS_VERSION');
+        Configuration::updateValue('PS_CCCCSS_VERSION', ++$version);
+
     }
 
     /**
