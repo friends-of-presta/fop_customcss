@@ -1,28 +1,29 @@
 <?php
+
 /**
-* 2007-2020 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author    PrestaShop SA <contact@prestashop.com>
-*  @copyright 2007-2020 PrestaShop SA
-*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*/
+ * 2007-2020 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    PrestaShop SA <contact@prestashop.com>
+ *  @copyright 2007-2020 PrestaShop SA
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of PrestaShop SA
+ */
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -30,7 +31,14 @@ if (!defined('_PS_VERSION_')) {
 
 class Fop_customcss extends Module
 {
+    private $hooks = [
+        'header',
+        'backOfficeHeader',
+        'displayHeader'
+    ];
+
     protected $config_form = false;
+
 
     public function __construct()
     {
@@ -59,17 +67,11 @@ class Fop_customcss extends Module
      */
     public function install()
     {
-
-
-        return parent::install() &&
-            $this->registerHook('header') &&
-            $this->registerHook('backOfficeHeader') &&
-            $this->registerHook('displayHeader');
+        return parent::install() && $this->registerHook($this->hooks);
     }
 
     public function uninstall()
     {
-
         return parent::uninstall();
     }
 
@@ -81,12 +83,11 @@ class Fop_customcss extends Module
         /**
          * If values have been submitted in the form, process.
          */
-        if (((bool)Tools::isSubmit('submitFop_customcssModule')) == true) {
+        if (((bool) Tools::isSubmit('submitFop_customcssModule')) == true) {
             $this->postProcess();
         }
 
-        $this->context->smarty->assign('module_dir', $this->_path);
-
+        $this->context->smarty->assign(['module_dir', $this->_path]);
 
         return $this->renderForm();
     }
@@ -107,7 +108,7 @@ class Fop_customcss extends Module
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'submitFop_customcssModule';
         $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
-            .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
+            . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
 
         $helper->tpl_vars = array(
@@ -127,11 +128,11 @@ class Fop_customcss extends Module
         return array(
             'form' => array(
                 'legend' => array(
-                'title' => $this->l('Settings'),
-                'icon' => 'icon-cogs',
+                    'title' => $this->l('Settings'),
+                    'icon' => 'icon-cogs',
                 ),
                 'input' => array(
-                    
+
                     array(
                         'type' => 'textarea',
                         'id' => 'css_editor',
@@ -142,9 +143,9 @@ class Fop_customcss extends Module
                     ),
                     array(
                         'type' => 'html',
-                        'name' => '<textarea style="display:none" name="css_real_value">'.Tools::file_get_contents(dirname(__FILE__).'/views/css/front.css').'</textarea>',
+                        'name' => '<textarea style="display:none" name="css_real_value">' . Tools::file_get_contents(dirname(__FILE__) . '/views/css/front.css') . '</textarea>',
                     ),
-        
+
                 ),
                 'submit' => array(
                     'title' => $this->l('Save'),
@@ -159,7 +160,7 @@ class Fop_customcss extends Module
     protected function getConfigFormValues()
     {
         return array(
-            'FOP_CUSTOMCSS_' => Tools::file_get_contents(dirname(__FILE__).'/views/css/front.css'),
+            'FOP_CUSTOMCSS_' => Tools::file_get_contents(dirname(__FILE__) . '/views/css/front.css'),
         );
     }
 
@@ -171,20 +172,22 @@ class Fop_customcss extends Module
 
         $compiledCSS = Tools::getValue('css_real_value');
 
-        $css_file = dirname(__FILE__).'/views/css/front.css';
+        $css_file = dirname(__FILE__) . '/views/css/front.css';
 
         file_put_contents($css_file, $compiledCSS);
     }
 
     /**
-    * Add the CSS & JavaScript files you want to be loaded in the BO.
-    */
+     * Add the CSS & JavaScript files you want to be loaded in the BO.
+     */
     public function hookBackOfficeHeader()
     {
         if (Tools::getValue('configure') == $this->name) {
             $this->context->controller->addJquery();
-            $this->context->controller->addJS('https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js');
-            $this->context->controller->addJS($this->_path.'views/js/back.js');
+            $this->context->controller->addJS([
+                'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js',
+                $this->_path . 'views/js/back.js',
+            ]);
         }
     }
 
@@ -193,7 +196,7 @@ class Fop_customcss extends Module
      */
     public function hookHeader()
     {
-        $this->context->controller->addCSS($this->_path.'/views/css/front.css');
+        $this->context->controller->addCSS($this->_path . '/views/css/front.css');
     }
 
     public function hookDisplayHeader()
