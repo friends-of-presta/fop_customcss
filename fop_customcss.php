@@ -34,8 +34,9 @@ class Fop_customcss extends Module
     private $hooks = [
         'header',
         'backOfficeHeader',
-        'displayHeader'
     ];
+
+    protected $css_file = 'views/css/front.css';
 
     protected $config_form = false;
 
@@ -68,11 +69,6 @@ class Fop_customcss extends Module
     public function install()
     {
         return parent::install() && $this->registerHook($this->hooks);
-    }
-
-    public function uninstall()
-    {
-        return parent::uninstall();
     }
 
     /**
@@ -143,7 +139,7 @@ class Fop_customcss extends Module
                     ),
                     array(
                         'type' => 'html',
-                        'name' => '<textarea style="display:none" name="css_real_value">' . Tools::file_get_contents(dirname(__FILE__) . '/views/css/front.css') . '</textarea>',
+                        'name' => '<textarea style="display:none" name="css_real_value">' . Tools::file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file) . '</textarea>',
                     ),
 
                 ),
@@ -160,7 +156,7 @@ class Fop_customcss extends Module
     protected function getConfigFormValues()
     {
         return array(
-            'FOP_CUSTOMCSS_' => Tools::file_get_contents(dirname(__FILE__) . '/views/css/front.css'),
+            'FOP_CUSTOMCSS_' => Tools::file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file),
         );
     }
 
@@ -172,7 +168,7 @@ class Fop_customcss extends Module
 
         $compiledCSS = Tools::getValue('css_real_value');
 
-        $css_file = dirname(__FILE__) . '/views/css/front.css';
+        $css_file = dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file;
 
         file_put_contents($css_file, $compiledCSS);
     }
@@ -196,13 +192,8 @@ class Fop_customcss extends Module
      */
     public function hookHeader()
     {
-        $this->context->controller->addCSS($this->_path . '/views/css/front.css');
-    }
-
-    public function hookDisplayHeader()
-    {
-        if (file_exists(dirname(__FILE__) . '/views/css/front.css')) {
-            $this->context->controller->addCSS($this->_path . 'views/css/front.css');
+        if (file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file)) {
+            $this->context->controller->addCSS($this->_path . $this->css_file);
         }
     }
 }
