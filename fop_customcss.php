@@ -59,7 +59,7 @@ class Fop_customcss extends Module
      */
     public function install()
     {
-        Configuration::updateValue('FOP_CUSTOMCSS_LIVE_MODE', false);
+
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -69,7 +69,6 @@ class Fop_customcss extends Module
 
     public function uninstall()
     {
-        Configuration::deleteByName('FOP_CUSTOMCSS_LIVE_MODE');
 
         return parent::uninstall();
     }
