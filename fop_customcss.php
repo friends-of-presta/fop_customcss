@@ -56,7 +56,7 @@ class Fop_customcss extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->l('FOP - Custom css');
+        $this->displayName = $this->l('FOP - Custom CSS');
         $this->description = $this->l('Add some custom css for your template');
 
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
@@ -76,16 +76,17 @@ class Fop_customcss extends Module
      */
     public function getContent()
     {
-        /**
-         * If values have been submitted in the form, process.
-         */
-        if (((bool) Tools::isSubmit('submitFop_customcssModule')) == true) {
-            $this->postProcess();
+        $notifcation = null;
+
+        if (((bool) Tools::isSubmit('submitFop_customcssModule')) === true) {
+            if ($this->postProcess()) {
+                $notifcation =$this->displayConfirmation($this->l('Custom CSS saved !'));
+            } else {
+                $notifcation = $this->displayError($this->l('An error was occured during save.'));
+            }
         }
 
-        $this->context->smarty->assign(['module_dir', $this->_path]);
-
-        return $this->renderForm();
+        return $notifcation . $this->renderForm();
     }
 
     /**
@@ -118,6 +119,8 @@ class Fop_customcss extends Module
 
     /**
      * Create the structure of your form.
+     * 
+     * @return array
      */
     protected function getConfigForm()
     {
@@ -139,7 +142,7 @@ class Fop_customcss extends Module
                     ),
                     array(
                         'type' => 'html',
-                        'name' => '<textarea style="display:none" name="css_real_value">' . Tools::file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file) . '</textarea>',
+                        'name' => '<textarea style="display:none" name="css_real_value">' . Tools::file_get_contents($this->getCssFile()) . '</textarea>',
                     ),
 
                 ),
@@ -152,30 +155,35 @@ class Fop_customcss extends Module
 
     /**
      * Set values for the inputs.
+     * 
+     * @return array
      */
     protected function getConfigFormValues()
     {
         return array(
-            'FOP_CUSTOMCSS_' => Tools::file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file),
+            'FOP_CUSTOMCSS_' => Tools::file_get_contents($this->getCssFile()),
         );
     }
 
     /**
-     * Save form data.
+     * Save form data
+     *
+     * @return bool
      */
     protected function postProcess()
     {
-
+        $result = false;
         $compiledCSS = Tools::getValue('css_real_value');
-
-        $css_file = dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file;
-
-        file_put_contents($css_file, $compiledCSS);
-
-        //update cache version of ccccss
+        $cssFilePath = $this->getCssFile();
         $version = (int) Configuration::get('PS_CCCCSS_VERSION');
-        Configuration::updateValue('PS_CCCCSS_VERSION', ++$version);
 
+        // Write CSS in file
+        if (false !== file_put_contents($cssFilePath, $compiledCSS)) {
+            $result = true;
+        }
+        
+        //Update cache version of ccccss & return
+        return $result && Configuration::updateValue('PS_CCCCSS_VERSION', ++$version);
     }
 
     /**
@@ -197,8 +205,17 @@ class Fop_customcss extends Module
      */
     public function hookHeader()
     {
-        if (file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file)) {
+        if (file_exists($this->getCssFile())) {
             $this->context->controller->addCSS($this->_path . $this->css_file);
         }
+    }
+
+    /**
+     * Return CSS file path
+     *
+     * @return string
+     */
+    private function getCssFile() {
+        return dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file;
     }
 }
