@@ -46,7 +46,7 @@ class Fop_customcss extends Module
         $this->name = 'fop_customcss';
         $this->tab = 'administration';
         $this->version = '1.0.0';
-        $this->author = 'FOP - Guillaume Batier';
+        $this->author = 'Friends of Presta';
         $this->need_instance = 0;
 
         /**
