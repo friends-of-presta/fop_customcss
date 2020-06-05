@@ -36,7 +36,7 @@ class Fop_customcss extends Module
         'backOfficeHeader',
     ];
 
-    protected $css_file = 'views/css/front.css';
+    protected $css_file = 'views/css/fop_customcss.css';
 
     protected $config_form = false;
 
@@ -45,7 +45,7 @@ class Fop_customcss extends Module
     {
         $this->name = 'fop_customcss';
         $this->tab = 'administration';
-        $this->version = '1.0.0';
+        $this->version = '1.1.0';
         $this->author = 'FOP - Guillaume Batier';
         $this->need_instance = 0;
 
@@ -119,7 +119,7 @@ class Fop_customcss extends Module
 
     /**
      * Create the structure of your form.
-     * 
+     *
      * @return array
      */
     protected function getConfigForm()
@@ -155,7 +155,7 @@ class Fop_customcss extends Module
 
     /**
      * Set values for the inputs.
-     * 
+     *
      * @return array
      */
     protected function getConfigFormValues()
@@ -181,7 +181,7 @@ class Fop_customcss extends Module
         if (false !== file_put_contents($cssFilePath, $compiledCSS)) {
             $result = true;
         }
-        
+
         //Update cache version of ccccss & return
         return $result && Configuration::updateValue('PS_CCCCSS_VERSION', ++$version);
     }
