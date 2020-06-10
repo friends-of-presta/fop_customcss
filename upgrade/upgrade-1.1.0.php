@@ -26,13 +26,12 @@ function upgrade_module_1_1_0($module)
     $new_file      = __DIR__ . '/../views/css/fop_customcss.css';
     if ($original_file)
     {
-        if (!rename($original_file, $original_file))
+        if(!rename($original_file, $new_file))
         {
-            throw new Exception("failed to rename '$original_file' to '$new_file' ");
+            throw new Exception("migration failed : copy and remove $original_file and try again.");
         }
     }
 
     return true;
 }
-
 
