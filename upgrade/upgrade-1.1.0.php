@@ -22,8 +22,6 @@
  */
 function upgrade_module_1_1_0($module)
 {
-    // @todo use dirname(__FILE__) instead of __DIR__ ?
-    // @todo use DIRECTORY_SEPARATOR  ?
     $original_file = realpath(__DIR__ . '/../views/css/front.css');
     $new_file      = __DIR__ . '/../views/css/fop_customcss.css';
     if ($original_file)
