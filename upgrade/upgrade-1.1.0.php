@@ -1,22 +1,18 @@
 <?php
 /**
- * Copyright since 2020 Friends of Presta
+ * 2020-present Friends of Presta community
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.md.
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE
  * It is also available through the world-wide-web at this URL:
- * https://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to <infos@friendsofpresta.org> so we can send you a copy immediately.
+ * https://opensource.org/licenses/MIT
  *
- * @author    Friends of Presta <infos@friendsofpresta.org>
- * @copyright 2020 Friends of Presta
- * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @author    Friends of Presta community
+ * @copyright 2020-present Friends of Presta community
+ * @license   https://opensource.org/licenses/MIT MIT
  */
-
 /**
  * /views/css/front.css is under cvs, it should not be.
  * It's shop specific.
