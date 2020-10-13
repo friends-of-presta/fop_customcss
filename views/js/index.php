@@ -11,7 +11,7 @@
  * https://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to infos@friendsofpresta.org so we can send you a copy immediately.
+ * to license@prestashop.com so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
