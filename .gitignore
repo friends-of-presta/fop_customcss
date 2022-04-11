@@ -1,2 +1,5 @@
 views/css/fop_customcss.css
 views/css/front.css
+
+/vendor/
+.php-cs-fixer.cache
