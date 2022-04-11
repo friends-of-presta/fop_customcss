@@ -24,14 +24,11 @@ function upgrade_module_1_1_0($module)
 {
     $original_file = realpath(__DIR__ . '/../views/css/front.css');
     $new_file      = __DIR__ . '/../views/css/fop_customcss.css';
-    if ($original_file)
-    {
-        if(!rename($original_file, $new_file))
-        {
+    if ($original_file) {
+        if (!rename($original_file, $new_file)) {
             throw new Exception("migration failed : copy and remove $original_file and try again.");
         }
     }
 
     return true;
 }
-

@@ -215,7 +215,8 @@ class Fop_customcss extends Module
      *
      * @return string
      */
-    private function getCssFile() {
+    private function getCssFile()
+    {
         return dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file;
     }
 }
