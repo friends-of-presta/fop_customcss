@@ -37,7 +37,7 @@ class Fop_customcss extends Module
     {
         $this->name = 'fop_customcss';
         $this->tab = 'administration';
-        $this->version = '1.1.0';
+        $this->version = '1.1.1';
         $this->author = 'Friends of Presta';
         $this->need_instance = 0;
 
@@ -207,7 +207,8 @@ class Fop_customcss extends Module
      *
      * @return string
      */
-    private function getCssFile() {
+    private function getCssFile()
+    {
         return dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->css_file;
     }
 }

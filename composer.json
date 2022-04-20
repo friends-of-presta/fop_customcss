@@ -1,0 +1,16 @@
+{
+    "name": "friends-of-presta/fop_customcss",
+    "description": "Add custom css on your PrestaShop from the",
+    "type": "prestashop-module",
+    "require-dev": {
+        "prestashop/php-dev-tools": "^4.2"
+    },
+    "license": "AFL-3.0",
+    "authors": [
+        {
+            "name": "Friends of Presta",
+            "email": "infos@friendsofpresta.org"
+        }
+    ],
+    "require": {}
+}
